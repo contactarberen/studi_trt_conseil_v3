@@ -23,19 +23,35 @@
         <tbody>
         {% for annonce in annonces %}
             <tr>
-                <td>{{ annonce.id }}</td>
-                <td>{{ annonce.intitulePoste }}</td>
-                <td>{{ annonce.lieuTravail }}</td>
-                <td>{{ annonce.description }}</td>
-                <td>{{ annonce.horaires }}</td>
-                <td>{{ annonce.salaire }}</td>
-                <td>{{ annonce.idTypeContrat }}</td>
-                <td>{{ annonce.etat }}</td>
-                <td>{{ annonce.userId }}</td>
-                <td>
-                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
-                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
-                </td>
+                {% if is_granted('ROLE_RECRUTEUR') %}
+                    {% if annonce.userId == user %}
+                        <td>{{ annonce.id }}</td>
+                        <td>{{ annonce.intitulePoste }}</td>
+                        <td>{{ annonce.lieuTravail }}</td>
+                        <td>{{ annonce.description }}</td>
+                        <td>{{ annonce.horaires }}</td>
+                        <td>{{ annonce.salaire }}</td>
+                        <td>{{ annonce.idTypeContrat }}</td>
+                        <td>{{ annonce.etat }}</td>
+                        <td>{{ annonce.userId }}</td>
+                        <td>
+                            <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
+                            <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+                        </td>
+                    {% endif %}
+                {% else %}
+                    <td>{{ annonce.id }}</td>
+                        <td>{{ annonce.intitulePoste }}</td>
+                        <td>{{ annonce.lieuTravail }}</td>
+                        <td>{{ annonce.description }}</td>
+                        <td>{{ annonce.horaires }}</td>
+                        <td>{{ annonce.salaire }}</td>
+                        <td>{{ annonce.idTypeContrat }}</td>
+                        <td>{{ annonce.etat }}</td>
+                        <td>{{ annonce.userId }}</td>
+                        <td>
+                            <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>       
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -44,6 +60,8 @@
         {% endfor %}
         </tbody>
     </table>
-
+{% if is_granted('ROLE_RECRUTEUR') %}
     <a href="{{ path('app_annonce_new') }}">Create new</a>
+{% endif %}
+    
 {% endblock %}
