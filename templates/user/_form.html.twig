@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.confirm) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{% if is_granted('ROLE_ADMIN') %}
+    {{ form_end(form, {render_rest: false}) }}
+{% else %}
+    {{ form_end(form, {render_rest: true}) }}
+{% endif %}
+    
+    
+    
