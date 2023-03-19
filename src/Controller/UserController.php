@@ -11,17 +11,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN', message: 'No access!')]
+    /**
+    * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONSULTANT')")
+    */
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'userConnected' => $this->getUser()
         ]);
     }
 
@@ -35,14 +39,18 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($user->getDisplayedRoleId() == "Candidat") {
                 $user->setRoles(["ROLE_USER", "ROLE_CANDIDAT"]);
+                $user->setActif(False);
             }
             if ($user->getDisplayedRoleId() == "Recruteur") {
                 $user->setRoles(["ROLE_USER","ROLE_RECRUTEUR"]);
+                $user->setActif(False);
             }
+            
             if ($this->isGranted('ROLE_ADMIN')){
                 $user->setRoles(["ROLE_CONSULTANT"]);
+                $user->setActif(true);
             }
-
+            
             $userRepository->save($user, true);
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -73,11 +81,21 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/activate', name: 'app_user_activate', methods: ['GET', 'POST'])]
+    public function activate(User $user, UserRepository $userRepository): Response
+    {
+        $user->setActif(true);
+        $userRepository->save($user, true);
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response

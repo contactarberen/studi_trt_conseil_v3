@@ -38,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Annonce::class)]
     private Collection $annonceId;
 
+    #[ORM\Column]
+    private ?bool $actif = null;
+
     public function __construct(UserPasswordHasherInterface $passwordHasher) {
         $this->passwordHasher = $passwordHasher;
         $this->annonceId = new ArrayCollection();
@@ -107,9 +110,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     * Get the value of confirm
      */
 	public function getConfirm()
-                                                      	{
-                                                      	    return $this->confirm;
-                                                      	}
+                                                               	{
+                                                               	    return $this->confirm;
+                                                               	}
 	
 	/**
 	 * Set the value of confirm
@@ -117,11 +120,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return  self
 	 */
 	public function setConfirm($confirm)
-                                                      	{
-                                                      	    $this->confirm = $confirm;
-                                                      	
-                                                      	    return $this;
-                                                      	}
+                                                               	{
+                                                               	    $this->confirm = $confirm;
+                                                               	
+                                                               	    return $this;
+                                                               	}
 
     /**
      * @see UserInterface
@@ -174,6 +177,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $annonceId->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
+    }
+
+    public function setActif(bool $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }

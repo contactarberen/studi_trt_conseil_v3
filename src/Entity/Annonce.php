@@ -28,8 +28,8 @@ class Annonce
     #[ORM\Column]
     private ?int $salaire = null;
 
-    #[ORM\Column(length: 255, nullable:true)]
-    private ?string $etat = null;
+    #[ORM\Column]
+    private ?bool $actif = null;
 
     #[ORM\ManyToOne(inversedBy: 'idAnnonce')]
     #[ORM\JoinColumn(nullable: false)]
@@ -104,14 +104,14 @@ class Annonce
         return $this;
     }
 
-    public function getEtat(): ?string
+    public function isActif(): ?bool
     {
-        return $this->etat;
+        return $this->actif;
     }
 
-    public function setEtat(string $etat): self
+    public function setActif(string $actif): self
     {
-        $this->etat = $etat;
+        $this->actif = $actif;
 
         return $this;
     }
@@ -128,7 +128,7 @@ class Annonce
         return $this;
     }
     public function __toString(){
-        return $this->etat; // Remplacer champ par une propriété "string" de l'entité
+        return $this->actif; // Remplacer champ par une propriété "string" de l'entité
     }
 
     public function getUserId(): ?User

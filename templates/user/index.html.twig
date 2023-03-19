@@ -11,8 +11,9 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Displayed Roles</th>
-                <th>actions</th>
+                <th>Roles clients</th>
+                <th>Actif</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,10 +23,17 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.displayedRoleId }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
+                <td>{{ user.actif }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a href="{{ path('app_user_show', {'id': user.id}) }}">Détails</a>
+                        <a href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
+                    </td>
+                {% elseif is_granted('ROLE_CONSULTANT') %}
+                    <td>
+                        <a href="{{ path('app_user_activate', {'id': user.id}) }}">Activer</a>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

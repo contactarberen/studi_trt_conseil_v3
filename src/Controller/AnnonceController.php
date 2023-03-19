@@ -32,6 +32,7 @@ class AnnonceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $annonce->setUserId($this->getUser());
+            $annonce->setActif(false);
             $annonceRepository->save($annonce, true);
 
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
@@ -67,6 +68,15 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/annonce/{id}/activate', name: 'app_annonce_activate', methods: ['GET', 'POST'])]
+    public function activate(Annonce $annonce, AnnonceRepository $annonceRepository): Response
+    {
+        $annonce->setActif(true);
+        $annonceRepository->save($annonce, true);
+
+        return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/annonce/{id}', name: 'app_annonce_delete', methods: ['POST'])]

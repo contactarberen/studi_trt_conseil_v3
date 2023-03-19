@@ -18,6 +18,7 @@ class AnnonceType extends AbstractType
             ->add('horaires')
             ->add('salaire')
             ->add('idTypeContrat')
+            //->add('actif')
            //->add('userId')
         ;
     }
