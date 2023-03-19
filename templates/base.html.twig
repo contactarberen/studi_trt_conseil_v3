@@ -19,7 +19,8 @@
 		    <a href="/logout">Se déconnecter</a>
         {% else %}
             <a href="/login">Se connecter</a>
-        {% endif %}   
+        {% endif %}
+        <a href="{{ path('app_user_new') }}">S'inscrire</a>   
         {% block body %}{% endblock %}
     </body>
 </html>

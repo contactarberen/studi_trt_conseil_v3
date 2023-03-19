@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
     <h1>User index</h1>
@@ -32,16 +32,18 @@
                 {% elseif is_granted('ROLE_CONSULTANT') %}
                     <td>
                         <a href="{{ path('app_user_activate', {'id': user.id}) }}">Activer</a>
+                        <a href="{{ path('app_user_deactivate', {'id': user.id}) }}">Désactiver</a>
                     </td>
                 {% endif %}
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucune entrée trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <a href="{{ path('app_user_new') }}">Créer nouvel utilisateur</a>
+    <a href="{{ path('app_annonce_index') }}">Retour</a>
 {% endblock %}

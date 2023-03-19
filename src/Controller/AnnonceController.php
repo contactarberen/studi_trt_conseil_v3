@@ -78,6 +78,16 @@ class AnnonceController extends AbstractController
 
         return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/annonce/{id}/deactivate', name: 'app_annonce_deactivate', methods: ['GET', 'POST'])]
+    public function deactivate(Annonce $annonce, AnnonceRepository $annonceRepository): Response
+    {
+        $annonce->setActif(false);
+        $annonceRepository->save($annonce, true);
+
+        return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
 
     #[Route('/annonce/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response

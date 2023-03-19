@@ -54,6 +54,7 @@
                     <td>
                         <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Détails</a>
                         <a href="{{ path('app_annonce_activate', {'id': annonce.id}) }}">Activer</a>
+                        <a href="{{ path('app_annonce_deactivate', {'id': annonce.id}) }}">Désactiver</a>
                     </td>
                 {% else %}
                     {% if annonce.actif %}
@@ -74,13 +75,20 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucune entrée trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 {% if is_granted('ROLE_RECRUTEUR') %}
-    <a href="{{ path('app_annonce_new') }}">Create new</a>
+    <a href="{{ path('app_annonce_new') }}">Créer une nouvelle annonce</a>
+{% endif %}
+{% if is_granted('ROLE_CONSULTANT') %}
+    <a href="{{ path('app_user_index') }}">Gérer l'activation des utilisateurs</a>
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="/user/new" class="btn btn-link"> Créer un nouveau consultant</a>
+    <a href="/user" class="btn btn-link"> Lister tous les utilisateurs</a>
 {% endif %}
     
 {% endblock %}

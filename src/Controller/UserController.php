@@ -35,7 +35,7 @@ class UserController extends AbstractController
         $user = new User($userPasswordHasher);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             if ($user->getDisplayedRoleId() == "Candidat") {
                 $user->setRoles(["ROLE_USER", "ROLE_CANDIDAT"]);
@@ -91,6 +91,15 @@ class UserController extends AbstractController
     public function activate(User $user, UserRepository $userRepository): Response
     {
         $user->setActif(true);
+        $userRepository->save($user, true);
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['GET', 'POST'])]
+    public function deactivate(User $user, UserRepository $userRepository): Response
+    {
+        $user->setActif(false);
         $userRepository->save($user, true);
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
