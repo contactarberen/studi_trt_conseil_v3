@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttributsCandidat index{% endblock %}
+
+{% block body %}
+    <h1>AttributsCandidat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Cv</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attributs_candidat in attributs_candidats %}
+            <tr>
+                {% if attributs_candidat.userId == user %}
+                    <td>{{ attributs_candidat.id }}</td>
+                    <td>{{ attributs_candidat.nom }}</td>
+                    <td>{{ attributs_candidat.prenom }}</td>
+                    <td>{{ attributs_candidat.cv }}</td>
+                    <td>
+                        <a href="{{ path('app_attributs_candidat_show', {'id': attributs_candidat.id}) }}">show</a>
+                        <a href="{{ path('app_attributs_candidat_edit', {'id': attributs_candidat.id}) }}">edit</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

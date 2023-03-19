@@ -19,7 +19,7 @@ class AppFixtures extends Fixture
     {
         $user = new User($this->passwordHasher);
         $user->setEmail("admin@trt-conseil.fr")->setPassword("321")->setRoles(["ROLE_USER", "ROLE_ADMIN"]);
-
+        $user->setActif(true);
         $displayedRole1 = new DiplayedRole();
         $displayedRole1->setNom("Recruteur");
         $displayedRole2 = new DiplayedRole();

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\AttributsCandidat;
+use App\Entity\AttributsRecruteur;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -33,6 +35,9 @@ class UserController extends AbstractController
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
         $user = new User($userPasswordHasher);
+        $attributsCandidat = new AttributsCandidat;
+        $attributsRecruteur = new AttributsRecruteur;
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         
@@ -40,10 +45,12 @@ class UserController extends AbstractController
             if ($user->getDisplayedRoleId() == "Candidat") {
                 $user->setRoles(["ROLE_USER", "ROLE_CANDIDAT"]);
                 $user->setActif(False);
+                $user->setAttrCandidatId($attributsCandidat);
             }
             if ($user->getDisplayedRoleId() == "Recruteur") {
                 $user->setRoles(["ROLE_USER","ROLE_RECRUTEUR"]);
                 $user->setActif(False);
+                $user->setAttrRecruteurId($attributsRecruteur);
             }
             
             if ($this->isGranted('ROLE_ADMIN')){
@@ -57,6 +64,7 @@ class UserController extends AbstractController
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
+            'attributs_candidat' => $attributsCandidat,
             'form' => $form,
         ]);
     }

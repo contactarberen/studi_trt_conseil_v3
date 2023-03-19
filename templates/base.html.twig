@@ -12,6 +12,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <a href="{{ path('app_annonce_index') }}">ACCUEIL</a> 
     </head>
     <body>
         {% if app.user %}
@@ -19,8 +20,14 @@
 		    <a href="/logout">Se déconnecter</a>
         {% else %}
             <a href="/login">Se connecter</a>
+            <a href="{{ path('app_user_new') }}">S'inscrire</a> 
         {% endif %}
-        <a href="{{ path('app_user_new') }}">S'inscrire</a> 
+        {% if is_granted('ROLE_CANDIDAT')%}
+            <a href="{{ path('app_attributs_candidat_index') }}">Mon profil</a>
+        {% endif %}
+        {% if is_granted('ROLE_RECRUTEUR')%}
+            <a href="{{ path('app_attributs_recruteur_index') }}">Mon profil</a>
+        {% endif %} 
         <h2>
             TRT Conseil est une agence de recrutement spécialisée dans l'hôtellerie et la restauration. <br>
             Fondée en 2014, la société possède plus de 12 centres dispersés aux quatre coins de la France.

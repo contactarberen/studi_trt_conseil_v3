@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttributsRecruteur index{% endblock %}
+
+{% block body %}
+    <h1>AttributsRecruteur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomEntreprise</th>
+                <th>Adresse</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attributs_recruteur in attributs_recruteurs %}
+            <tr>
+                {% if attributs_recruteur.userId == user %}
+                    <td>{{ attributs_recruteur.id }}</td>
+                    <td>{{ attributs_recruteur.nomEntreprise }}</td>
+                    <td>{{ attributs_recruteur.adresse }}</td>
+                    <td>
+                        <a href="{{ path('app_attributs_recruteur_show', {'id': attributs_recruteur.id}) }}">show</a>
+                        <a href="{{ path('app_attributs_recruteur_edit', {'id': attributs_recruteur.id}) }}">edit</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

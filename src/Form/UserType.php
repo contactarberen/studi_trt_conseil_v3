@@ -48,7 +48,6 @@ class UserType extends AbstractType
                 ]
             ])
             ->add("displayedRoleId");
-            
     }
 
     public function configureOptions(OptionsResolver $resolver)

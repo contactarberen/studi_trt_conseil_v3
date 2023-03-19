@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,8 +39,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Annonce::class)]
     private Collection $annonceId;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?bool $actif = null;
+
+    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist', 'remove'])]
+    private ?AttributsCandidat $attrCandidatId = null;
+
+    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist', 'remove'])]
+    private ?AttributsRecruteur $attrRecruteurId = null;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher) {
         $this->passwordHasher = $passwordHasher;
@@ -110,9 +117,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     * Get the value of confirm
      */
 	public function getConfirm()
-                                                               	{
-                                                               	    return $this->confirm;
-                                                               	}
+                      {
+                          return $this->confirm;
+                      }
 	
 	/**
 	 * Set the value of confirm
@@ -120,11 +127,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return  self
 	 */
 	public function setConfirm($confirm)
-                                                               	{
-                                                               	    $this->confirm = $confirm;
-                                                               	
-                                                               	    return $this;
-                                                               	}
+                      {
+                          $this->confirm = $confirm;
+                      
+                          return $this;
+                      }
 
     /**
      * @see UserInterface
@@ -193,4 +200,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getAttrCandidatId(): ?AttributsCandidat
+    {
+        return $this->attrCandidatId;
+    }
+
+    public function setAttrCandidatId(?AttributsCandidat $attrCandidatId): self
+    {
+        $this->attrCandidatId = $attrCandidatId;
+
+        return $this;
+    }
+
+    public function getAttrRecruteurId(): ?AttributsRecruteur
+    {
+        return $this->attrRecruteurId;
+    }
+
+    public function setAttrRecruteurId(?AttributsRecruteur $attrRecruteurId): self
+    {
+        $this->attrRecruteurId = $attrRecruteurId;
+
+        return $this;
+    }
 }

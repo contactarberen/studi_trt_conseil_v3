@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttributsRecruteur{% endblock %}
+
+{% block body %}
+    <h1>AttributsRecruteur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ attributs_recruteur.id }}</td>
+            </tr>
+            <tr>
+                <th>NomEntreprise</th>
+                <td>{{ attributs_recruteur.nomEntreprise }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ attributs_recruteur.adresse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_attributs_recruteur_index') }}">back to list</a>
+
+    <a href="{{ path('app_attributs_recruteur_edit', {'id': attributs_recruteur.id}) }}">edit</a>
+
+    {{ include('attributs_recruteur/_delete_form.html.twig') }}
+{% endblock %}

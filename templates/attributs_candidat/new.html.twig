@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AttributsCandidat{% endblock %}
+
+{% block body %}
+    <h1>Create new AttributsCandidat</h1>
+
+    {{ include('attributs_candidat/_form.html.twig') }}
+
+    <a href="{{ path('app_attributs_candidat_index') }}">back to list</a>
+{% endblock %}
