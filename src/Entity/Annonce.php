@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
@@ -38,6 +40,14 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annonceId')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $userId = null;
+
+    #[ORM\OneToMany(mappedBy: 'annonceId', targetEntity: Candidature::class)]
+    private Collection $candidatureId;
+
+    public function __construct()
+    {
+        $this->candidatureId = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +149,36 @@ class Annonce
     public function setUserId(?User $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatureId(): Collection
+    {
+        return $this->candidatureId;
+    }
+
+    public function addCandidatureId(Candidature $candidatureId): self
+    {
+        if (!$this->candidatureId->contains($candidatureId)) {
+            $this->candidatureId->add($candidatureId);
+            $candidatureId->setAnnonceId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidatureId(Candidature $candidatureId): self
+    {
+        if ($this->candidatureId->removeElement($candidatureId)) {
+            // set the owning side to null (unless already changed)
+            if ($candidatureId->getAnnonceId() === $this) {
+                $candidatureId->setAnnonceId(null);
+            }
+        }
 
         return $this;
     }

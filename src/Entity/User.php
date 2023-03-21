@@ -48,10 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: AttributsCandidat::class)]
     private Collection $attrCandidatId;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Candidature::class)]
+    private Collection $candidatureId;
+
     public function __construct(UserPasswordHasherInterface $passwordHasher) {
         $this->passwordHasher = $passwordHasher;
         $this->annonceId = new ArrayCollection();
         $this->attrCandidatId = new ArrayCollection();
+        $this->candidatureId = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -118,9 +122,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     * Get the value of confirm
      */
 	public function getConfirm()
-                                                       {
-                                                           return $this->confirm;
-                                                       }
+                                                                      {
+                                                                          return $this->confirm;
+                                                                      }
 	
 	/**
 	 * Set the value of confirm
@@ -128,11 +132,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return  self
 	 */
 	public function setConfirm($confirm)
-                                                       {
-                                                           $this->confirm = $confirm;
-                                                       
-                                                           return $this;
-                                                       }
+                                                                      {
+                                                                          $this->confirm = $confirm;
+                                                                      
+                                                                          return $this;
+                                                                      }
 
     /**
      * @see UserInterface
@@ -237,6 +241,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($attrCandidatId->getUserId() === $this) {
                 $attrCandidatId->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatureId(): Collection
+    {
+        return $this->candidatureId;
+    }
+
+    public function addCandidatureId(Candidature $candidatureId): self
+    {
+        if (!$this->candidatureId->contains($candidatureId)) {
+            $this->candidatureId->add($candidatureId);
+            $candidatureId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidatureId(Candidature $candidatureId): self
+    {
+        if ($this->candidatureId->removeElement($candidatureId)) {
+            // set the owning side to null (unless already changed)
+            if ($candidatureId->getUserId() === $this) {
+                $candidatureId->setUserId(null);
             }
         }
 
