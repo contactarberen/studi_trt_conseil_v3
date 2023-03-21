@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/attributs/recruteur')]
 class AttributsRecruteurController extends AbstractController
@@ -23,6 +24,7 @@ class AttributsRecruteurController extends AbstractController
     }
 
     #[Route('/new', name: 'app_attributs_recruteur_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_RECRUTEUR', message: 'No access!')]
     public function new(Request $request, AttributsRecruteurRepository $attributsRecruteurRepository): Response
     {
         $attributsRecruteur = new AttributsRecruteur();

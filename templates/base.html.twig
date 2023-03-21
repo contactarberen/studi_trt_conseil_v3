@@ -24,6 +24,7 @@
         {% endif %}
         {% if is_granted('ROLE_CANDIDAT')%}
             <a href="{{ path('app_attributs_candidat_index') }}">Mon profil</a>
+            
         {% endif %}
         {% if is_granted('ROLE_RECRUTEUR')%}
             <a href="{{ path('app_attributs_recruteur_index') }}">Mon profil</a>

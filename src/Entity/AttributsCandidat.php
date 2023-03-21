@@ -20,10 +20,13 @@ class AttributsCandidat
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $cv = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $cv = null;
 
-    #[ORM\OneToOne(mappedBy: 'attrCandidatId', cascade: ['persist', 'remove'])]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'attrCandidatId')]
     private ?User $userId = null;
 
     public function getId(): ?int
@@ -55,14 +58,27 @@ class AttributsCandidat
         return $this;
     }
 
-    public function getCv()
+
+    public function getCv(): ?string
     {
         return $this->cv;
     }
 
-    public function setCv($cv): self
+    public function setCv(?string $cv): self
     {
         $this->cv = $cv;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
@@ -74,16 +90,6 @@ class AttributsCandidat
 
     public function setUserId(?User $userId): self
     {
-        // unset the owning side of the relation if necessary
-        if ($userId === null && $this->userId !== null) {
-            $this->userId->setAttrCandidatId(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($userId !== null && $userId->getAttrCandidatId() !== $this) {
-            $userId->setAttrCandidatId($this);
-        }
-
         $this->userId = $userId;
 
         return $this;

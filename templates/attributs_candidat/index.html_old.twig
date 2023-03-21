@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id Utilisateur</th>
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
@@ -22,8 +21,7 @@
             <tr>
                 {% dump(attributs_candidat.userId) %}
                 {% dump(user) %}
-                {% if attributs_candidat.userId == user %} 
-                    <td>{{ attributs_candidat.userId }}</td>
+                {% if attributs_candidat.userId == user %}
                     <td>{{ attributs_candidat.id }}</td>
                     <td>{{ attributs_candidat.nom }}</td>
                     <td>{{ attributs_candidat.prenom }}</td>

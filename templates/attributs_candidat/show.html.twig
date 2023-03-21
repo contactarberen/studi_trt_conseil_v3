@@ -21,7 +21,19 @@
             </tr>
             <tr>
                 <th>Cv</th>
-                <td>{{ attributs_candidat.cv }}</td>
+                <td>
+                    {% if attributs_candidat.cv  %}
+                        <a href="{{ asset('uploads/cv/' ~ attributs_candidat.cv) }}">{{attributs_candidat.cv}}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    {% if attributs_candidat.image  %}
+                        <img src={{ asset('uploads/image/' ~ attributs_candidat.image) }} class="card-img-top" alt={{attributs_candidat.image}}>
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>

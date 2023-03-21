@@ -42,15 +42,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column (nullable: true)]
     private ?bool $actif = null;
 
-    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist', 'remove'])]
-    private ?AttributsCandidat $attrCandidatId = null;
-
-    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist'])]
     private ?AttributsRecruteur $attrRecruteurId = null;
+
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: AttributsCandidat::class)]
+    private Collection $attrCandidatId;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher) {
         $this->passwordHasher = $passwordHasher;
         $this->annonceId = new ArrayCollection();
+        $this->attrCandidatId = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -117,9 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     * Get the value of confirm
      */
 	public function getConfirm()
-                      {
-                          return $this->confirm;
-                      }
+                                                       {
+                                                           return $this->confirm;
+                                                       }
 	
 	/**
 	 * Set the value of confirm
@@ -127,11 +128,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return  self
 	 */
 	public function setConfirm($confirm)
-                      {
-                          $this->confirm = $confirm;
-                      
-                          return $this;
-                      }
+                                                       {
+                                                           $this->confirm = $confirm;
+                                                       
+                                                           return $this;
+                                                       }
 
     /**
      * @see UserInterface
@@ -200,18 +201,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAttrCandidatId(): ?AttributsCandidat
-    {
-        return $this->attrCandidatId;
-    }
-
-    public function setAttrCandidatId(?AttributsCandidat $attrCandidatId): self
-    {
-        $this->attrCandidatId = $attrCandidatId;
-
-        return $this;
-    }
-
     public function getAttrRecruteurId(): ?AttributsRecruteur
     {
         return $this->attrRecruteurId;
@@ -220,6 +209,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAttrRecruteurId(?AttributsRecruteur $attrRecruteurId): self
     {
         $this->attrRecruteurId = $attrRecruteurId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributsCandidat>
+     */
+    public function getAttrCandidatId(): Collection
+    {
+        return $this->attrCandidatId;
+    }
+
+    public function addAttrCandidatId(AttributsCandidat $attrCandidatId): self
+    {
+        if (!$this->attrCandidatId->contains($attrCandidatId)) {
+            $this->attrCandidatId->add($attrCandidatId);
+            $attrCandidatId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttrCandidatId(AttributsCandidat $attrCandidatId): self
+    {
+        if ($this->attrCandidatId->removeElement($attrCandidatId)) {
+            // set the owning side to null (unless already changed)
+            if ($attrCandidatId->getUserId() === $this) {
+                $attrCandidatId->setUserId(null);
+            }
+        }
 
         return $this;
     }

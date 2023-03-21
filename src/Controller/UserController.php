@@ -45,7 +45,7 @@ class UserController extends AbstractController
             if ($user->getDisplayedRoleId() == "Candidat") {
                 $user->setRoles(["ROLE_USER", "ROLE_CANDIDAT"]);
                 $user->setActif(False);
-                $user->setAttrCandidatId($attributsCandidat);
+                //$user->setAttrCandidatId($attributsCandidat);
             }
             if ($user->getDisplayedRoleId() == "Recruteur") {
                 $user->setRoles(["ROLE_USER","ROLE_RECRUTEUR"]);

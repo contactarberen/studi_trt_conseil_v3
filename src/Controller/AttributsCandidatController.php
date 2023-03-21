@@ -6,9 +6,15 @@ use App\Entity\AttributsCandidat;
 use App\Form\AttributsCandidatType;
 use App\Repository\AttributsCandidatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/attributs/candidat')]
 class AttributsCandidatController extends AbstractController
@@ -23,13 +29,52 @@ class AttributsCandidatController extends AbstractController
     }
     
     #[Route('/new', name: 'app_attributs_candidat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AttributsCandidatRepository $attributsCandidatRepository): Response
+    #[IsGranted('ROLE_CANDIDAT', message: 'No access!')]
+    public function new(Request $request, AttributsCandidatRepository $attributsCandidatRepository, SluggerInterface $slugger): Response
     {
         $attributsCandidat = new AttributsCandidat();
         $form = $this->createForm(AttributsCandidatType::class, $attributsCandidat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $cv = $form->get('cv')->getData();
+            $image = $form->get('image')->getData();
+            
+            if ($image) {
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                try {
+                    $image->move(
+                        $this->getParameter('image_uploads'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    dump($e);
+                }
+                $attributsCandidat->setImage($newFilename);
+            }
+            
+            if ($cv) {
+                $originalFilename = pathinfo($cv->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$cv->guessExtension();
+
+                // Move the file to the directory where cv are stored
+                try {
+                    $cv->move(
+                        $this->getParameter('cv_uploads'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    dump($e);
+                }
+
+                $attributsCandidat->setCv($newFilename);
+            }
+
             $attributsCandidatRepository->save($attributsCandidat, true);
 
             return $this->redirectToRoute('app_attributs_candidat_index', [], Response::HTTP_SEE_OTHER);
@@ -40,7 +85,7 @@ class AttributsCandidatController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    
     #[Route('/{id}', name: 'app_attributs_candidat_show', methods: ['GET'])]
     public function show(AttributsCandidat $attributsCandidat): Response
     {
