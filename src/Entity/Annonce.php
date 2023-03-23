@@ -41,11 +41,14 @@ class Annonce
     #[ORM\JoinColumn(nullable: false)]
     private ?User $userId = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonceId', targetEntity: Candidature::class)]
+    //cya #[ORM\OneToOne(inversedBy: 'annonceId', cascade: ['persist'])]
+    //cya private ?Candidature $candidatureId = null;
+
+    #[ORM\OneToMany(mappedBy: 'annonceId', targetEntity: Candidature::class, cascade:["persist"])]
     private Collection $candidatureId;
 
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->candidatureId = new ArrayCollection();
     }
 
@@ -153,6 +156,17 @@ class Annonce
         return $this;
     }
 
+    //public function getCandidatureId(): ?Candidature
+    //{
+    //    return $this->candidatureId;
+    //}
+
+    //public function setCandidatureId(?Candidature $candidatureId): self
+    //{
+    //    $this->candidatureId = $candidatureId;
+    //    return $this;
+    //}
+    
     /**
      * @return Collection<int, Candidature>
      */
@@ -182,4 +196,5 @@ class Annonce
 
         return $this;
     }
+    
 }

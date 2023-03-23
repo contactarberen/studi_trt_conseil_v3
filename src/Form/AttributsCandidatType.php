@@ -14,7 +14,7 @@ class AttributsCandidatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('userId')
+            //->add('userId')
             ->add('nom')
             ->add('prenom')
             ->add("image", FileType::class, [

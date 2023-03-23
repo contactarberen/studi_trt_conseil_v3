@@ -94,4 +94,8 @@ class AttributsCandidat
 
         return $this;
     }
+    public function __toString(){
+        return $this->cv; // Remplacer champ par une propriété "string" de l'entité
+    }
+    
 }

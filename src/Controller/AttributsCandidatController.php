@@ -33,13 +33,14 @@ class AttributsCandidatController extends AbstractController
     public function new(Request $request, AttributsCandidatRepository $attributsCandidatRepository, SluggerInterface $slugger): Response
     {
         $attributsCandidat = new AttributsCandidat();
+        $attributsCandidat->setUserId($this->getUser());
         $form = $this->createForm(AttributsCandidatType::class, $attributsCandidat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $cv = $form->get('cv')->getData();
             $image = $form->get('image')->getData();
-            
+           
             if ($image) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);

@@ -4,7 +4,9 @@
 
 {% block body %}
     <h1>Candidature index</h1>
-
+     <pre>
+        {{tot}}
+    </pre> 
     <table class="table">
         <thead>
             <tr>
@@ -34,6 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+   
     {#<a href="{{ path('app_candidature_new') }}">Create new</a>#}
 {% endblock %}

@@ -69,7 +69,8 @@
                         <td>{{ annonce.userId }}</td>
                         <td>
                             <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Détails</a>
-                            <a href="{{ path('app_candidature') }}">Postuler</a>
+                            <a href="{{ path('app_annonce_add_candidate', {'id': annonce.id}) }}">Postuler</a>
+                            {#<a href="{{ path('app_candidature_new', {'id': annonce.id}) }}">Postuler</a>#}
                         </td>
                     {% endif %}      
                 {% endif %}

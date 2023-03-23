@@ -38,6 +38,21 @@ class CandidatureRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function findOneByIdJoinedToAnnonce(int $candidatureId): ?Candidature
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p, c
+            FROM App\Entity\Candidature p
+            INNER JOIN p.annonce c
+            WHERE p.id = :id'
+        )->setParameter('id', $candidatureId);
+
+        return $query->getOneOrNullResult();
+    }
+    
 
 //    /**
 //     * @return Candidature[] Returns an array of Candidature objects

@@ -17,10 +17,10 @@ class Candidature
     private ?bool $isValid = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidatureId')]
-    private ?Annonce $annonceId = null;
-
-    #[ORM\ManyToOne(inversedBy: 'candidatureId')]
     private ?User $userId = null;
+    // cya
+    #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'candidatureId', cascade:["persist"])]
+    private ?Annonce $annonceId = null;
 
     public function getId(): ?int
     {
@@ -39,6 +39,17 @@ class Candidature
         return $this;
     }
 
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
     public function getAnnonceId(): ?Annonce
     {
         return $this->annonceId;
@@ -51,15 +62,9 @@ class Candidature
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->userId;
+    public function __toString(){
+        return $this->isValid; // Remplacer champ par une propriété "string" de l'entité
     }
 
-    public function setUserId(?User $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
+    
 }

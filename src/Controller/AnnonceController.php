@@ -70,6 +70,18 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+    #[Route('/annonce/{id}/add/candidate', name: 'app_annonce_add_candidate', methods: ['GET', 'POST'])]
+    public function addCandidate(Annonce $annonce, AnnonceRepository $annonceRepository): Response
+    {
+        //$annonce->addCandidatureId();
+        //$annonce->getUserId();
+        
+        //$annonce->$this->getUser();
+        //$annonceRepository->save($annonce, true);
+
+        return $this->redirectToRoute('app_candidature_new', array('annonceId' => $annonce->getId()));
+    }
+    
     #[Route('/annonce/{id}/activate', name: 'app_annonce_activate', methods: ['GET', 'POST'])]
     public function activate(Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
@@ -78,6 +90,7 @@ class AnnonceController extends AbstractController
 
         return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('/annonce/{id}/deactivate', name: 'app_annonce_deactivate', methods: ['GET', 'POST'])]
     public function deactivate(Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {

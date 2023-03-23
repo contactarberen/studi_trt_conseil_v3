@@ -72,4 +72,8 @@ class AttributsRecruteur
 
         return $this;
     }
+
+    public function __toString(){
+        return $this->adresse; // Remplacer champ par une propriété "string" de l'entité
+    }
 }

@@ -4,7 +4,8 @@
 
 {% block body %}
     <h1>AttributsCandidat index</h1>
-
+    {% set aucune_entree = true %}
+    
     <table class="table">
         <thead>
             <tr>
@@ -17,37 +18,40 @@
                 <th>actions</th>
             </tr>
         </thead>
+        
         <tbody>
-        {% for attributs_candidat in attributs_candidats %}
-            <tr>
-                {% dump(attributs_candidat.userId) %}
-                {% dump(user) %}
-                {% if attributs_candidat.userId == user %} 
-                    <td>{{ attributs_candidat.userId }}</td>
-                    <td>{{ attributs_candidat.id }}</td>
-                    <td>{{ attributs_candidat.nom }}</td>
-                    <td>{{ attributs_candidat.prenom }}</td>
-                    <td>
-                        {% if attributs_candidat.cv  %}
-                            <a href="{{ asset('uploads/cv/' ~ attributs_candidat.cv) }}">{{attributs_candidat.cv}}</a>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if attributs_candidat.image  %}
-                            <img src={{ asset('uploads/image/' ~ attributs_candidat.image) }} class="card-img-top" alt={{attributs_candidat.image}}>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('app_attributs_candidat_show', {'id': attributs_candidat.id}) }}">show</a>
-                        <a href="{{ path('app_attributs_candidat_edit', {'id': attributs_candidat.id}) }}">edit</a>
-                    </td>
-                {% endif %}
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for attributs_candidat in attributs_candidats %}
+                <tr>
+                    {% if attributs_candidat.userId == user %} 
+                        <td>{{ attributs_candidat.userId }}</td>
+                        <td>{{ attributs_candidat.id }}</td>
+                        <td>{{ attributs_candidat.nom }}</td>
+                        <td>{{ attributs_candidat.prenom }}</td>
+                        <td>
+                            {% if attributs_candidat.cv  %}
+                                <a href="{{ asset('uploads/cv/' ~ attributs_candidat.cv) }}">{{attributs_candidat.cv}}</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if attributs_candidat.image  %}
+                                <img src={{ asset('uploads/image/' ~ attributs_candidat.image) }} class="card-img-top" alt={{attributs_candidat.image}}>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_attributs_candidat_show', {'id': attributs_candidat.id}) }}">Détails</a>
+                            <a href="{{ path('app_attributs_candidat_edit', {'id': attributs_candidat.id}) }}">Editer</a>
+                        </td>
+                        {% set aucune_entree = false %}
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">aucune entrée trouvée</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    {% if aucune_entree == true %}
+        <a href="{{ path('app_attributs_candidat_new') }}">Nouveau</a>
+    {% endif %} 
 {% endblock %}
