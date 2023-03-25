@@ -27,17 +27,6 @@ class CandidatureController extends AbstractController
         ]);
     }
 
-    #[Route('/test/{toto}', name: 'app_candidature_test', methods: ['GET'])]
-    public function test($toto, CandidatureRepository $candidatureRepository): Response
-    {
-        return $this->render('candidature/index_test.html.twig', [
-            'candidatures' => $candidatureRepository->findAll(),
-            'user' => $this->getUser(),
-            'tot' => $toto, 
-        ]);
-    }
-
-
     #[Route('/new/{annonceId}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_CANDIDAT', message: 'No access!')]
     public function new($annonceId ,AnnonceRepository $annonceRepository, Request $request, CandidatureRepository $candidatureRepository): Response
@@ -53,25 +42,7 @@ class CandidatureController extends AbstractController
         $candidature->setAnnonceId($annonce);
         $candidatureRepository->save($candidature, true);
         
-
-        //return $this->redirectToRoute('app_candidature_test', array( 'toto'=> $candidature->getAnnonceId()));
-        return new Response($candidature->getAnnonceId());
-        //return new Response($annonce->getId());
-        
-        //$form = $this->createForm(CandidatureType::class, $candidature);
-        //$form->handleRequest($request);
-
-        //if ($form->isSubmitted() && $form->isValid()) {
-        //    $candidature->setIsValid(False);
-        //    $candidatureRepository->save($candidature, true);
-
-        //    return $this->redirectToRoute('app_candidature_index', [], Response::HTTP_SEE_OTHER);
-        //}
-
-        //return $this->render('candidature/new.html.twig', [
-        //    'candidature' => $candidature,
-            //'form' => $form,
-        //]);
+        return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_candidature_show', methods: ['GET'])]

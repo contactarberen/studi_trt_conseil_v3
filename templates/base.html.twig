@@ -5,13 +5,25 @@
         <title>{% block title %}Bienvenue!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <div class="container-fluid p-5 bg-primary text-white text-center">
+            <h1>TRT Conseil</h1>
+            <p>TRT Conseil est une agence de recrutement spécialisée dans l'hôtellerie et la restauration.</p> 
+            <p>Fondée en 2014, la société possède plus de 12 centres dispersés aux quatre coins de la France.</p> 
+        </div>
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+			{{ encore_entry_link_tags('app') }}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+			<link rel="stylesheet" href="{{ asset('styles/main.css') }}">
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+			<script src="{{ asset('scripts/functions.js') }}"></script>
+		{% endblock %}
+
         <a href="{{ path('app_annonce_index') }}">ACCUEIL</a> 
     </head>
     <body>
@@ -29,10 +41,6 @@
         {% if is_granted('ROLE_RECRUTEUR')%}
             <a href="{{ path('app_attributs_recruteur_index') }}">Mon profil</a>
         {% endif %} 
-        <h2>
-            TRT Conseil est une agence de recrutement spécialisée dans l'hôtellerie et la restauration. <br>
-            Fondée en 2014, la société possède plus de 12 centres dispersés aux quatre coins de la France.
-        </h2>  
         {% block body %}{% endblock %}
         
     </body>

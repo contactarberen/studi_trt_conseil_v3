@@ -19,7 +19,7 @@ class AttributsRecruteur
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
-    #[ORM\OneToOne(mappedBy: 'attrRecruteurId', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'attrRecruteurId')]
     private ?User $userId = null;
 
     public function getId(): ?int
@@ -58,16 +58,6 @@ class AttributsRecruteur
 
     public function setUserId(?User $userId): self
     {
-        // unset the owning side of the relation if necessary
-        if ($userId === null && $this->userId !== null) {
-            $this->userId->setAttrRecruteurId(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($userId !== null && $userId->getAttrRecruteurId() !== $this) {
-            $userId->setAttrRecruteurId($this);
-        }
-
         $this->userId = $userId;
 
         return $this;

@@ -41,9 +41,6 @@ class Annonce
     #[ORM\JoinColumn(nullable: false)]
     private ?User $userId = null;
 
-    //cya #[ORM\OneToOne(inversedBy: 'annonceId', cascade: ['persist'])]
-    //cya private ?Candidature $candidatureId = null;
-
     #[ORM\OneToMany(mappedBy: 'annonceId', targetEntity: Candidature::class, cascade:["persist"])]
     private Collection $candidatureId;
 

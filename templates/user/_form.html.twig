@@ -4,8 +4,8 @@
     {{ form_row(form.email) }}
     {{ form_row(form.password) }}
     {{ form_row(form.confirm) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
-
+    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    
 {% if is_granted('ROLE_ADMIN') %}
     {{ form_end(form, {render_rest: false}) }}
 {% else %}

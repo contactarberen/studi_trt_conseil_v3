@@ -60,21 +60,21 @@ class AppFixtures extends Fixture
         $consul1->setActif(true);
 
         $annonce1 = new Annonce();
-        $annonce1->setIntitulePoste("Développeur frontend")->setLieuTravail("Argenteuil")->setDescription("Expérience exigé de 5 ans.");
-        $annonce1->setHoraires("8h00 - 17h00")->setSalaire(4500)->setIdTypeContrat($typeContrat1)->setUserId($recrut1);
+        $annonce1->setIntitulePoste("Serveur ")->setLieuTravail("Argenteuil")->setDescription("Serveur dans un restaurant indien.Expérience exigée de 5 ans.");
+        $annonce1->setHoraires("10h00-14h00/18h00-22h00")->setSalaire(2100)->setIdTypeContrat($typeContrat1)->setUserId($recrut1);
         $annonce1->setActif(true);
         $annonce2 = new Annonce();
-        $annonce2->setIntitulePoste("Développeur backend")->setLieuTravail("Colombes")->setDescription("Expérience exigé de 10 ans.");
-        $annonce2->setHoraires("Full Remote")->setSalaire(3850)->setActif(true)->setIdTypeContrat($typeContrat3)->setUserId($recrut2);
+        $annonce2->setIntitulePoste("Responsable de la restauration")->setLieuTravail("Colombes")->setDescription("Expérience exigé de 10 ans.");
+        $annonce2->setHoraires("Full Remote")->setSalaire(3050)->setActif(true)->setIdTypeContrat($typeContrat3)->setUserId($recrut2);
         $annonce3 = new Annonce();
-        $annonce3->setIntitulePoste("Administrateur réseaux")->setLieuTravail("Argenteuil")->setDescription("Apprentissage. avoir moins de 24 ans.");
-        $annonce3->setHoraires("8h00 - 17h00")->setSalaire(4500)->setActif(true)->setIdTypeContrat($typeContrat4)->setUserId($recrut2);
+        $annonce3->setIntitulePoste("Chef cuisinier")->setLieuTravail("Argenteuil")->setDescription("Poste dans un hotel de luxe.");
+        $annonce3->setHoraires("11h00 - 22h00")->setSalaire(3500)->setActif(true)->setIdTypeContrat($typeContrat4)->setUserId($recrut2);
         $annonce4 = new Annonce();
-        $annonce4->setIntitulePoste("Développeur fullstack")->setLieuTravail("Strasbourg")->setDescription("Expérience exigé de 5 ans.");
-        $annonce4->setHoraires("8h00 - 17h00")->setSalaire(4500)->setActif(true)->setIdTypeContrat($typeContrat1)->setUserId($recrut1);
+        $annonce4->setIntitulePoste("Femme de ménage")->setLieuTravail("Strasbourg")->setDescription("Expérience exigé de 5 ans.");
+        $annonce4->setHoraires("8h00 - 17h00")->setSalaire(1500)->setActif(true)->setIdTypeContrat($typeContrat1)->setUserId($recrut1);
         $annonce5 = new Annonce();
-        $annonce5->setIntitulePoste("Ingénieur Téléphonie")->setLieuTravail("Narbonne")->setDescription("pas d'expérience.");
-        $annonce5->setHoraires("9h00 - 16h00")->setSalaire(6500)->setActif(true)->setIdTypeContrat($typeContrat2)->setUserId($recrut3);
+        $annonce5->setIntitulePoste("Serveur débutant")->setLieuTravail("Narbonne")->setDescription("Pas d'expérience exigée.");
+        $annonce5->setHoraires("17h00 - 21h00")->setSalaire(1750)->setActif(true)->setIdTypeContrat($typeContrat2)->setUserId($recrut3);
   
         $manager->persist($user);
         $manager->persist($displayedRole1);

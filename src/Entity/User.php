@@ -30,20 +30,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-
+    #[ORM\Column]
     private ?string $confirm = null;
+
+    #[ORM\Column (nullable: true)]
+    private ?bool $actif = null;
 
     #[ORM\ManyToOne(inversedBy: 'userId')]
     private ?DiplayedRole $displayedRoleId = null;
 
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Annonce::class)]
     private Collection $annonceId;
-
-    #[ORM\Column (nullable: true)]
-    private ?bool $actif = null;
-
-    #[ORM\OneToOne(inversedBy: 'userId', cascade: ['persist'])]
-    private ?AttributsRecruteur $attrRecruteurId = null;
+  
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: AttributsRecruteur::class)]
+    private Collection $attrRecruteurId;
 
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: AttributsCandidat::class)]
     private Collection $attrCandidatId;
@@ -55,6 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->passwordHasher = $passwordHasher;
         $this->annonceId = new ArrayCollection();
         $this->attrCandidatId = new ArrayCollection();
+        $this->attrRecruteurId = new ArrayCollection();
         $this->candidatureId = new ArrayCollection();
     }
     
@@ -122,9 +123,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     * Get the value of confirm
      */
 	public function getConfirm()
-                                                                      {
-                                                                          return $this->confirm;
-                                                                      }
+    {
+        return $this->confirm;
+    }
 	
 	/**
 	 * Set the value of confirm
@@ -132,11 +133,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return  self
 	 */
 	public function setConfirm($confirm)
-                                                                      {
-                                                                          $this->confirm = $confirm;
-                                                                      
-                                                                          return $this;
-                                                                      }
+    {
+        $this->confirm = $confirm;
+    
+        return $this;
+    }
 
     /**
      * @see UserInterface
@@ -205,18 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAttrRecruteurId(): ?AttributsRecruteur
-    {
-        return $this->attrRecruteurId;
-    }
-
-    public function setAttrRecruteurId(?AttributsRecruteur $attrRecruteurId): self
-    {
-        $this->attrRecruteurId = $attrRecruteurId;
-
-        return $this;
-    }
-
+   
     /**
      * @return Collection<int, AttributsCandidat>
      */
@@ -241,6 +231,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($attrCandidatId->getUserId() === $this) {
                 $attrCandidatId->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributsCandidat>
+     */
+    public function getAttrRecruteurId(): Collection
+    {
+        return $this->attrRecruteurId;
+    }
+
+    public function addAttrRecruteurId(AttributsRecruteur $attrRecruteurId): self
+    {
+        if (!$this->attrRecruteurId->contains($attrRecruteurId)) {
+            $this->attrRecruteurId->add($attrRecruteurId);
+            $attrRecruteurId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttrRecruteurId(AttributsRecruteur $attrRecruteurId): self
+    {
+        if ($this->attrRecruteurId->removeElement($attrRecruteurId)) {
+            // set the owning side to null (unless already changed)
+            if ($attrRecruteurId->getUserId() === $this) {
+                $attrRecruteurId->setUserId(null);
             }
         }
 
