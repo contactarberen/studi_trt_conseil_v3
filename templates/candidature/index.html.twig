@@ -16,22 +16,25 @@
             </tr>
         </thead>
         <tbody>
-        {% for candidature in candidatures %}
-            <tr>
-                <td>{{ candidature.id }}</td>
-                <td>{{ candidature.userId }}</td>
-                <td>{{ candidature.annonceId }}</td>
-                <td>{{ candidature.isValid ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
-                    <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
+        {% if is_granted('ROLE_CONSULTANT') %}
+            {% for candidature in candidatures %}
+                <tr>
+                    <td>{{ candidature.id }}</td>
+                    <td>{{ candidature.userId }}</td>
+                    <td>{{ candidature.annonceId }}</td>
+                    <td>{{ candidature.isValid ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
+                        <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>
+                        <a href="{{ path('app_candidature_activate', {'id': candidature.id}) }}">Activer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 

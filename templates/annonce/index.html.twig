@@ -86,7 +86,8 @@
     <a href="{{ path('app_annonce_new') }}">Créer une nouvelle annonce</a>
 {% endif %}
 {% if is_granted('ROLE_CONSULTANT') %}
-    <a href="{{ path('app_user_index') }}">Gérer l'activation des utilisateurs</a>
+    <a href="{{ path('app_user_index') }}">Gérer l'activation des utilisateurs</a><br>
+    <a href="{{ path('app_candidature_index') }}">Gérer l'activation des postulants</a>
 {% endif %}
 {% if is_granted('ROLE_ADMIN') %}
     <a href="/user/new" class="btn btn-link"> Créer un nouveau consultant</a>

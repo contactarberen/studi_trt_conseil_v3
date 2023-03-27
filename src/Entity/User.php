@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-    #[ORM\Column]
+    
     private ?string $confirm = null;
 
     #[ORM\Column (nullable: true)]

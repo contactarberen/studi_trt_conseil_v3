@@ -50,7 +50,7 @@ class UserController extends AbstractController
             if ($user->getDisplayedRoleId() == "Recruteur") {
                 $user->setRoles(["ROLE_USER","ROLE_RECRUTEUR"]);
                 $user->setActif(False);
-                $user->setAttrRecruteurId($attributsRecruteur);
+                //$user->setAttrRecruteurId($attributsRecruteur);
             }
             
             if ($this->isGranted('ROLE_ADMIN')){
